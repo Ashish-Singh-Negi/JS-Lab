@@ -24,8 +24,8 @@ class CustomPromise {
     this.executer = expectedExecuter(
       (data: any) => {
         this.resolvedVlaue = data;
-        this.state = "fulfilled";
         this.runLaterWhenResolved();
+        this.state = "fulfilled";
       },
       (reason?: any) => {
         this.rejectedReason = reason;
@@ -36,6 +36,11 @@ class CustomPromise {
 
   then(successCallback: (data: any) => any) {
     this.thenCallbacks.push(successCallback);
+
+    if (this.state == "fulfilled") {
+      this.runLaterWhenResolved();
+    }
+
     return this;
   }
 
